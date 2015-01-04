@@ -19,7 +19,9 @@ Architecture
 ------------
 
 Message flow.
+
 .. code:: text
+
 
                               +--[handler a]--+
                               |               |
