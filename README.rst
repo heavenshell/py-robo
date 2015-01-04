@@ -9,7 +9,7 @@ Why reinvent the wheel
 
 I Love Python and I'm not good at Node.js(hubot), Ruby(Ruboty).
 
-`Err <https://github.com/gbin/err>`_ is pluggable but it's too huge for me.
+`Err <https://github.com/gbin/err>`_ is pluggable but it's too complex for me.
 
 `brutal <http://brutal.readthedocs.org/en/latest/index.html>`_ is also pluggable but I don't wont to write config file.
 
@@ -41,6 +41,7 @@ Handler
 Handler provides various behaviors to your robot.
 
 .. code:: python
+
   from robo.decorators import cmd
 
   class Ping(object):
