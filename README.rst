@@ -54,4 +54,4 @@ This handler matches message `ping` and return `pong` to chat service.
 
 How to create plugins
 ---------------------
-
+TBD
