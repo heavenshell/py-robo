@@ -10,7 +10,10 @@
     :license: BSD, see LICENSE for more details.
 """
 import os
+import logging
 from sleekxmpp import ClientXMPP
+
+logger = logging.getLogger('robo')
 
 
 class SlackXmpp(ClientXMPP):
@@ -30,11 +33,14 @@ class SlackXmpp(ClientXMPP):
 
 class Slack(object):
     def __init__(self, signal):
+        logger.info('Start slack adapter.')
         password = os.environ['ROBO_SLACK_PASSWORD']
         room = os.environ['ROBO_SLACK_ROOM']
         team = os.environ['ROBO_SLACK_TEAM']
         username = os.environ['ROBO_SLACK_USERNAME']
         jid = '{0}@{1}.xmpp.slack.com'.format(username, team)
+        logger.debug('jid is `{0}`.'.format(jid))
+        logger.debug('room is `{0}`.'.format(room))
 
         self.xmpp = SlackXmpp(jid, password)
         self.xmpp.signal = signal
