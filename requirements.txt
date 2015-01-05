@@ -1,1 +1,5 @@
 blinker
+sleekxmpp
+dnspython3
+pyasn1
+pyasn1_modules
