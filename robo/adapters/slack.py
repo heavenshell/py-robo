@@ -27,7 +27,7 @@ class SlackXmpp(ClientXMPP):
         """
         ClientXMPP.__init__(self, jid, password)
         self.add_event_handler('session_start', self.session_start)
-        self.add_event_handler('message', self.receive)
+        self.add_event_handler("groupchat_message", self.muc_message)
         self.signal = None
         self.room = room
         self.nick = username
