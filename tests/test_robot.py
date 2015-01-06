@@ -115,7 +115,7 @@ class TestRobot(TestCase):
         """ Robot should triggered when given message was started with robot name. """
         self.robot.handler_signal.send('test hi foo')
         self.assertEqual(self.robot.adapters['null'].responses[0], 'hi')
-        self.robot.adapters['null'].responses.clear()
+        self.robot.adapters['null'].responses = []
 
     def test_robot_not_triggered(self):
         """ Robot should not triggered when given message was not started with robot name. """
@@ -126,7 +126,7 @@ class TestRobot(TestCase):
         """ Handler should triggered when given message matched. """
         self.robot.handler_signal.send('test hi foo')
         self.assertEqual(self.robot.adapters['null'].responses[0], 'hi')
-        self.robot.adapters['null'].responses.clear()
+        self.robot.adapters['null'].responses = []
 
     def test_handler_not_triggered_when_regex_not_matched(self):
         """ Handler should not triggered when given message was not matched. """
@@ -137,10 +137,10 @@ class TestRobot(TestCase):
         """ Adapter should triggered when given message was matched. """
         self.robot.handler_signal.send('test hi foo')
         self.assertEqual(self.robot.adapters['null'].responses, ['hi'])
-        self.robot.adapters['null'].responses.clear()
+        self.robot.adapters['null'].responses = []
 
     def test_notofy_to_adapter_send_message(self):
         """ Robot().notify_to_adapter() should send message to adapter. """
         self.robot.notify_to_adapter('hello')
         self.assertEqual(self.robot.adapters['null'].responses, ['hello'])
-        self.robot.adapters['null'].responses.clear()
+        self.robot.adapters['null'].responses = []
