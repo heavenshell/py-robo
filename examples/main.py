@@ -35,7 +35,7 @@ def main(args=None):
     logger.debug('Handler path is `{0}`'.format(handler_path))
     logger.debug('Adapter path is `{0}`'.format(adapter_path))
 
-    robot = Robot(logger=logger)
+    robot = Robot(name=args.name, logger=logger)
     robot.setup_handlers(handler_path)
     robot.setup_adapters(adapter_path, args.adapter)
     robot.run(args.adapter)
@@ -46,6 +46,7 @@ def parse_options():
     description = 'Dead simple bot framework'
     parser = argparse.ArgumentParser(description=description, add_help=False)
     parser.add_argument('-a', '--adapter', default='shell')
+    parser.add_argument('-u', '--name', default='robo')
     parser.add_argument('-vv', '--verbose', default=logging.INFO, nargs='?',
                         const=logging.DEBUG)
 
