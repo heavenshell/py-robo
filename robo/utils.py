@@ -9,6 +9,8 @@
     :copyright: (c) 2014 Shinya Ohyanagi, All rights reserved.
     :license: BSD, see LICENSE for more details.
 """
+
+
 def snakecase_to_pascalcase(value):
     """Convert snakecase to pascalcase.
 
@@ -24,5 +26,3 @@ def snakecase_to_pascalcase(value):
     items = value.split('_')
 
     return items[0].capitalize() + ''.join(x.title() for x in items[1:])
-
-

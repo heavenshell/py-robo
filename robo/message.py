@@ -9,6 +9,8 @@
     :copyright: (c) 2015 Shinya Ohyanagi, All rights reserved.
     :license: BSD, see LICENSE for more details.
 """
+
+
 class Message(object):
     def __init__(self, body, match, **kwargs):
         self.body = body

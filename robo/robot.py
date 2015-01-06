@@ -56,8 +56,8 @@ class PluginLoader(object):
 
         :param name: Plugin file name
         """
-        return __import__(self.package + '.' + name,
-                globals(), {}, ['__name__'])
+        package = self.package + '.' + name
+        return __import__(package, globals(), {}, ['__name__'])
 
 
 class Robot(object):
@@ -170,7 +170,7 @@ class Robot(object):
         """
         methods = []
         for func_name, func in inspect.getmembers(instance, inspect.ismethod):
-            #: Handler's method was decorated with @cmd(), 
+            #: Handler's method was decorated with @cmd(),
             if getattr(func, '__robo_event', False):
                 plugin_kwargs = getattr(func, '__robo_kwargs', {})
                 regex = None
@@ -188,7 +188,7 @@ class Robot(object):
                 #: `description` is for help.
                 #: `> robo help` will show all usages.
                 description = plugin_kwargs['description'] if 'description' in \
-                        plugin_kwargs else ''
+                    plugin_kwargs else ''
 
                 doc = 'description: {0}, pattern: {1}'.format(
                     description,

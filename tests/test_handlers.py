@@ -19,6 +19,7 @@ from robo.handlers.echo import Echo
 from robo.handlers.ping import Ping
 from robo.handlers.help import Help
 
+
 def create_robot():
     here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     get_path = partial(os.path.join, here)
@@ -74,7 +75,6 @@ class TestHelpHandler(TestCase):
             'description: Return PONG to PING, pattern: ^ping$'
         ]
         self.assertEqual(ret, '\n'.join(expected))
-
 
     def test_should_response_help_by_sending_signal(self):
         """ Handler should show help when signal send. """
