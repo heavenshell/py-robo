@@ -17,33 +17,47 @@ logger = logging.getLogger('robo')
 
 
 class SlackXmpp(ClientXMPP):
-    def __init__(self, jid, password, username, room):
+    def __init__(self, jid, password, username, rooms):
         """Construct a xmpp client.
 
-        :param jid: JID
+        :param jid: Jid
         :param password: Slack password
         :param username: Bot name
-        :param room: Chat room
+        :param room: Chat rooms
         """
         ClientXMPP.__init__(self, jid, password)
+        self.signal = None
+        self.rooms = rooms
+        self.nick = username
         self.add_event_handler('session_start', self.session_start)
         self.add_event_handler("groupchat_message", self.muc_message)
-        self.signal = None
-        self.room = room
-        self.nick = username
 
     def session_start(self, event):
+        """Start session.
+
+        :param event:
+        """
         self.send_presence()
         self.get_roster()
-        self.plugin['xep_0045'].joinMUC(self.room, self.nick, wait=False)
+        rooms = self.rooms
+        for room in rooms:
+            self.plugin['xep_0045'].joinMUC(room, self.nick, wait=False)
 
-    def muc_message(self, msg):
-        if msg['mucnick'] != self.nick and self.nick in msg['body']:
-            self.signal.send(msg['body'], original=msg, source='slack')
+    def muc_message(self, message):
+        """Receive multi user chat message.
+
+        :param msg:
+        """
+        if message['mucnick'] != self.nick and self.nick in message['body']:
+            self.signal.send(message['body'], original=message, source='slack')
 
 
 class Slack(object):
     def __init__(self, signal):
+        """Construct a Slack adapter.
+
+        :param signal: :class:`blinker.signal` Signal
+        """
         logger.info('Start slack adapter.')
         password = os.environ['ROBO_SLACK_PASSWORD']
         room = os.environ['ROBO_SLACK_ROOM']
@@ -53,16 +67,27 @@ class Slack(object):
         logger.debug('jid is `{0}`.'.format(jid))
         logger.debug('room is `{0}`.'.format(room))
 
-        self.xmpp = SlackXmpp(jid, password, username, room)
+        #: Enable to join multi rooms.
+        rooms = room.split(',')
+        logger.info('Joining rooms are {0}.'.format(rooms))
+
+        self.xmpp = SlackXmpp(jid, password, username, rooms)
         self.xmpp.register_plugin('xep_0030')
         self.xmpp.register_plugin('xep_0045')
         self.xmpp.signal = signal
 
     def say(self, message, **kwargs):
-        self.xmpp.send_message(mto=message.original['from'].bare,
-                               mbody=message.body, mtype='groupchat')
+        """Send reply message to Slack.
+
+        :param message: Message body
+        :param **kwargs: kwargs['original'] is Sleekxmpp message
+        """
+        original = kwargs.get('original')
+        self.xmpp.send_message(mto=original['from'].bare,
+                               mbody=message, mtype='groupchat')
 
     def run(self):
+        """ Run xmpp client. """
         if self.xmpp.connect():
             logging.info('Start xmpp client.')
             self.xmpp.process(block=True)
