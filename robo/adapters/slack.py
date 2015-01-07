@@ -72,8 +72,12 @@ class Slack(object):
         logger.info('Joining rooms are {0}.'.format(rooms))
 
         self.xmpp = SlackXmpp(jid, password, username, rooms)
+        #: Add service eiscovery.
         self.xmpp.register_plugin('xep_0030')
+        #: Add Multi-User chat.
         self.xmpp.register_plugin('xep_0045')
+        #: Add XMPP ping.
+        self.xmpp.register_plugin('xep_0199')
         self.xmpp.signal = signal
 
     def say(self, message, **kwargs):
