@@ -1,5 +1,7 @@
 robo
 ====
+.. image:: https://travis-ci.org/heavenshell/py-robo.png?branch=master
+
 
 Dead simple bot framework which is inspired by Ruby's ruboty.
 
