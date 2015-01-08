@@ -114,6 +114,29 @@ class Robot(object):
                 pattern = handler['regex']
                 matched = pattern.match(body)
                 if matched:
+                    if kwargs.get('room', None) is not None:
+                        #: If handler was decorated like `room='^random@.*'`,
+                        #: then check incoming message contains chat room
+                        #: and matched.
+                        #:
+                        #: >>> class(object):
+                        #: >>>    @cmd(regex='^hello$', room='^random@.')
+                        #: >>>    def hello(message **kwargs):
+                        #: >>>        return 'hello random'
+                        #:
+                        #: >>>    @cmd(regex='^hello$')
+                        #: >>>    def hello2(message **kwargs):
+                        #: >>>        return 'hello'
+                        #:
+                        #: If incoming message is from room `@random`,
+                        #: method `hello()` and `hello2()` are matched.
+                        #: If incoming message is from room `@general`,
+                        #: only `hello2()` is matched.
+                        if 'room' in handler and handler['room'] is not None:
+                            room_regex = handler['room']
+                            if not room_regex.match(kwargs.get('room')):
+                                continue
+
                     method = handler['method']
                     instance = handler['instance']
                     if hasattr(instance, method):
@@ -185,6 +208,11 @@ class Robot(object):
                     regex = re.compile(plugin_kwargs['regex'], regex_flags)
                     self.logger.debug('Regex is `{0}.`'.format(regex))
 
+                room = None
+                if 'room' in plugin_kwargs:
+                    room = re.compile(plugin_kwargs['room'], re.IGNORECASE)
+                    self.logger.debug('Room regex is `{0}`.'.format(room))
+
                 #: `description` is for help.
                 #: `> robo help` will show all usages.
                 description = plugin_kwargs['description'] if 'description' in \
@@ -200,6 +228,7 @@ class Robot(object):
                     'method': func_name,
                     'kwargs': plugin_kwargs,
                     'regex': regex,
+                    'room': room,
                 }
                 methods.append(method)
 

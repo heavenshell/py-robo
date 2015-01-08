@@ -69,12 +69,15 @@ class TestRobot(TestCase):
         """ Robot().parse_handler_methods() should parse given instance. """
         from tests.fixtures.handlers.foo import Foo
         ret = self.robot.parse_handler_methods(Foo())
-        self.assertEqual(len(ret), 2)
+        self.assertEqual(len(ret), 5)
 
     def test_should_setup_handlers(self):
         """ Robot().setup_handlers() should setup handlers. """
-        self.assertEqual(self.robot.handlers[0]['method'], 'hello')
-        self.assertEqual(self.robot.handlers[1]['method'], 'hi')
+        self.assertEqual(self.robot.handlers[0]['method'], 'goodbye')
+        self.assertEqual(self.robot.handlers[1]['method'], 'goodbye2')
+        self.assertEqual(self.robot.handlers[2]['method'], 'goodbye3')
+        self.assertEqual(self.robot.handlers[3]['method'], 'hello')
+        self.assertEqual(self.robot.handlers[4]['method'], 'hi')
 
     def test_should_handlers_contains_handler_instance(self):
         """ Robot().handlers should contains instance. """
@@ -83,23 +86,24 @@ class TestRobot(TestCase):
 
     def test_should_handlers_contains_handler_methods(self):
         """ Robot().handlers should contains handler method. """
-        self.assertEqual(self.robot.handlers[0]['method'], 'hello')
+        self.assertEqual(self.robot.handlers[0]['method'], 'goodbye')
 
     def test_should_handlers_contains_regex(self):
         """ Robot().handlers should contains regexs object. """
-        self.assertEqual(self.robot.handlers[0]['regex'].pattern, '^hello')
+        self.assertEqual(self.robot.handlers[0]['regex'].pattern, '^goodbye')
 
     def test_should_handlers_contains_kwargs(self):
         """ Robot().handlers should contains kwargs. """
-        self.assertEqual(self.robot.handlers[0]['kwargs'], {'regex': '^hello'})
+        self.assertEqual(self.robot.handlers[0]['kwargs'],
+                         {'regex': '^goodbye', 'room': '^@random'})
 
     def test_shoudl_contains_handlers_docs(self):
         """ Robot().docs should contains handler's docs. """
-        self.assertEqual(len(self.robot.docs), 2)
+        self.assertEqual(len(self.robot.docs), 5)
 
     def test_handlers_docs_contains_description_and_pattern(self):
         """ Robot().docs should contains description and pattern. """
-        self.assertEqual(self.robot.docs[1],
+        self.assertEqual(self.robot.docs[4],
                          'description: test hi, pattern: ^hi')
 
     def test_should_setup_adapters(self):
@@ -132,6 +136,19 @@ class TestRobot(TestCase):
         """ Handler should not triggered when given message was not matched. """
         self.robot.handler_signal.send('test foo')
         self.assertEqual(self.robot.adapters['null'].responses, [])
+
+    def test_handler_triggered_when_room_regex_matched(self):
+        """ Handler should triggered when room is matched. """
+        self.robot.handler_signal.send('test goodbye', room='@random')
+        self.assertEqual(self.robot.adapters['null'].responses,
+                         ['goodbye @random', 'goodbye all'])
+        self.robot.adapters['null'].responses = []
+
+    def test_handler_triggered_when_room_regex_was_not_described(self):
+        """ Handler should triggered when room is matched. """
+        self.robot.handler_signal.send('test goodbye', room='@test')
+        self.assertEqual(self.robot.adapters['null'].responses, ['goodbye all'])
+        self.robot.adapters['null'].responses = []
 
     def test_adapter_should_triggered(self):
         """ Adapter should triggered when given message was matched. """
