@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-    Add comment here
-    ~~~~~~~~~~~~~~~~
+    robo.tests.test_robot
+    ~~~~~~~~~~~~~~~~~~~~~
 
-    Add descripton here
+    Robot tests.
 
 
     :copyright: (c) 2014 Shinya Ohyanagi, All rights reserved.
