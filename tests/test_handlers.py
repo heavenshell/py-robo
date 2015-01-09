@@ -70,9 +70,9 @@ class TestHelpHandler(TestCase):
         robot = create_robot()
         ret = Help().say(Message(body='', docs=robot.docs, match=None))
         expected = [
-            'description: Repeate your command, pattern: echo\s+(.*)',
-            'description: Show this help message, pattern: ^help$',
-            'description: Return PONG to PING, pattern: ^ping$'
+            'Description: Repeate your command   Pattern: echo\s+(.*)',
+            'Description: Show this help message Pattern: ^help$',
+            'Description: Return PONG to PING    Pattern: ^ping$'
         ]
         self.assertEqual(ret, '\n'.join(expected))
 
@@ -82,8 +82,8 @@ class TestHelpHandler(TestCase):
         robot.handler_signal.send('robo help')
         ret = robot.adapters['null'].responses[0]
         expected = [
-            'description: Repeate your command, pattern: echo\s+(.*)',
-            'description: Show this help message, pattern: ^help$',
-            'description: Return PONG to PING, pattern: ^ping$'
+            'Description: Repeate your command   Pattern: echo\s+(.*)',
+            'Description: Show this help message Pattern: ^help$',
+            'Description: Return PONG to PING    Pattern: ^ping$'
         ]
         self.assertEqual(ret, '\n'.join(expected))

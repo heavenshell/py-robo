@@ -103,8 +103,8 @@ class TestRobot(TestCase):
 
     def test_handlers_docs_contains_description_and_pattern(self):
         """ Robot().docs should contains description and pattern. """
-        self.assertEqual(self.robot.docs[4],
-                         'description: test hi, pattern: ^hi')
+        self.assertEqual(self.robot.docs[4]['description'], 'test hi')
+        self.assertEqual(self.robot.docs[4]['pattern'], '^hi')
 
     def test_should_setup_adapters(self):
         """ Robot().setup_adapters() should setup adapters. """
