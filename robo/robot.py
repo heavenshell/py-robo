@@ -106,12 +106,18 @@ class Robot(object):
         """
         self.logger.debug('Subscribing message is `{0}`.'.format(sender))
         handlers = self.handlers
+        missings = []
+        unmatched_count = 0
         for handler in handlers:
             #: Message should start with robot's name(default is robo).
             trigger = self.trigger_pattern.match(sender)
             if trigger and 'regex' in handler:
                 body = trigger.group(1)
                 pattern = handler['regex']
+                missing = handler['missing']
+                if missing is True:
+                    missings.append(handler)
+
                 matched = pattern.match(body)
                 if matched:
                     if kwargs.get('room', None) is not None:
@@ -151,6 +157,12 @@ class Robot(object):
                         result = obj(message)
                         #: Notify message to adapter.
                         self.notify_to_adapter(result, **kwargs)
+                else:
+                    unmatched_count += 1
+
+        if unmatched_count > 0:
+            for missing_handler in missings:
+                pass
 
     def notify_to_adapter(self, sender, **kwargs):
         """Notify message to adapter.
@@ -208,6 +220,11 @@ class Robot(object):
                     regex = re.compile(plugin_kwargs['regex'], regex_flags)
                     self.logger.debug('Regex is `{0}.`'.format(regex))
 
+                missing = False
+                if 'missing' in plugin_kwargs:
+                    missing = True
+                    self.logger.debug('Missing is `{0}`'.format(missing))
+
                 room = None
                 if 'room' in plugin_kwargs:
                     room = re.compile(plugin_kwargs['room'], re.IGNORECASE)
@@ -226,6 +243,7 @@ class Robot(object):
                     'kwargs': plugin_kwargs,
                     'regex': regex,
                     'room': room,
+                    'missing': missing
                 }
                 methods.append(method)
 
