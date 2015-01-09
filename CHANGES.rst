@@ -1,3 +1,7 @@
+0.3.1
+-----
+* Improve format display ``help`` result.
+
 0.3
 ---
 * Add chat room option.
