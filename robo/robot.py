@@ -218,10 +218,7 @@ class Robot(object):
                 description = plugin_kwargs['description'] if 'description' in \
                     plugin_kwargs else ''
 
-                doc = 'description: {0}, pattern: {1}'.format(
-                    description,
-                    regex.pattern
-                )
+                doc = {'description': description, 'pattern': regex.pattern}
                 self.docs.append(doc)
                 method = {
                     'instance': instance,
