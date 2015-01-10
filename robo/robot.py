@@ -174,7 +174,7 @@ class Robot(object):
         :param matched: :class: `re.match` Matched object
         :param **kwargs: Data to be sent to receivers
         """
-        if 'room' in handler and handler['room'] is not None:
+        if handler.get('room', None) is not None:
             #: Exit if handler method decorated with `room`,
             #: but incoming message not contained `room` or `room` is not
             #: matched.

@@ -1,3 +1,7 @@
+0.4.1
+-----
+* Tiny refactoring.
+
 0.4.0
 -----
 * Add missing option. ``missing=True`` is called only when any handler doesn't match given message.
