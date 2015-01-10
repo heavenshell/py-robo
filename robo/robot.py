@@ -35,6 +35,7 @@ class PluginLoader(object):
         :param package: Package name
         """
         self.plugin_paths = []
+        #: Base plugin package name.
         self.package = package
 
     def list_plugins(self, searchpath):
@@ -152,8 +153,7 @@ class Robot(object):
         """Execute handler class if trigger condition all matched.
 
         If handler was decorated like `room='^random@.*'`,
-        then check incoming message contains chat room
-        and matched.
+        then check incoming message contains chat room and matched.
 
         >>> class(object):
         >>>    @cmd(regex='^hello$', room='^random@.')
