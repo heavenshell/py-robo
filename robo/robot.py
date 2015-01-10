@@ -35,6 +35,7 @@ class PluginLoader(object):
         :param package: Package name
         """
         self.plugin_paths = []
+        #: Base plugin package name.
         self.package = package
 
     def list_plugins(self, searchpath):
@@ -105,52 +106,102 @@ class Robot(object):
         :param **kwargs: Data to be sent to receivers
         """
         self.logger.debug('Subscribing message is `{0}`.'.format(sender))
+
+        #: Message should start with robot's name(default is robo).
+        trigger = self.trigger_pattern.match(sender)
+        if trigger is None:
+            return
+
+        #: Delete robot's name.
+        #: > robo ping
+        #: body would be `ping`.
+        body = trigger.group(1)
+
+        #: `missing` is called only when any handler doesn't match
+        #: given message.
+        missings = []
+        matched_count = 0
+        unmatched_count = 0
+
         handlers = self.handlers
         for handler in handlers:
-            #: Message should start with robot's name(default is robo).
-            trigger = self.trigger_pattern.match(sender)
-            if trigger and 'regex' in handler:
-                body = trigger.group(1)
+            if 'regex' in handler:
+                if handler['missing'] is True:
+                    missings.append(handler)
+                    continue
+
                 pattern = handler['regex']
                 matched = pattern.match(body)
                 if matched:
-                    if kwargs.get('room', None) is not None:
-                        #: If handler was decorated like `room='^random@.*'`,
-                        #: then check incoming message contains chat room
-                        #: and matched.
-                        #:
-                        #: >>> class(object):
-                        #: >>>    @cmd(regex='^hello$', room='^random@.')
-                        #: >>>    def hello(message **kwargs):
-                        #: >>>        return 'hello random'
-                        #:
-                        #: >>>    @cmd(regex='^hello$')
-                        #: >>>    def hello2(message **kwargs):
-                        #: >>>        return 'hello'
-                        #:
-                        #: If incoming message is from room `@random`,
-                        #: method `hello()` and `hello2()` are matched.
-                        #: If incoming message is from room `@general`,
-                        #: only `hello2()` is matched.
-                        if 'room' in handler and handler['room'] is not None:
-                            room_regex = handler['room']
-                            if not room_regex.match(kwargs.get('room')):
-                                continue
+                    ret = self.trigger_handler(sender, handler, matched,
+                                               **kwargs)
+                    if ret is True:
+                        matched_count += 1
+                else:
+                    unmatched_count += 1
 
-                    method = handler['method']
-                    instance = handler['instance']
-                    if hasattr(instance, method):
-                        obj = getattr(instance, method)
-                        if instance.__module__ == 'robo.handlers.help':
-                            kwargs['docs'] = self.docs
+        if matched_count == 0 and unmatched_count > 0:
+            for missing_handler in missings:
+                if 'regex' in missing_handler:
+                    pattern = missing_handler['regex']
+                    matched = pattern.match(body)
+                    if matched:
+                        self.trigger_handler(sender, missing_handler,
+                                             matched, **kwargs)
 
-                        send_to = '{0}.{1}'.format(instance.__module__, method)
-                        message = Message(sender, match=matched,
-                                          send_to=send_to, **kwargs)
+    def trigger_handler(self, sender, handler, matched, **kwargs):
+        """Execute handler class if trigger condition all matched.
 
-                        result = obj(message)
-                        #: Notify message to adapter.
-                        self.notify_to_adapter(result, **kwargs)
+        If handler was decorated like `room='^random@.*'`,
+        then check incoming message contains chat room and matched.
+
+        >>> class(object):
+        >>>    @cmd(regex='^hello$', room='^random@.')
+        >>>    def hello(message **kwargs):
+        >>>        return 'hello random'
+        >>>
+        >>>    @cmd(regex='^hello$')
+        >>>    def hello2(message **kwargs):
+        >>>        return 'hello'
+
+        If incoming message is from room `@random`,
+        method `hello()` and `hello2()` are matched.
+        If incoming message is from room `@general`,
+        only `hello2()` is matched.
+
+        :param sender: Incoming message
+        :param handler: Handler class instance
+        :param matched: :class: `re.match` Matched object
+        :param **kwargs: Data to be sent to receivers
+        """
+        if 'room' in handler and handler['room'] is not None:
+            #: Exit if handler method decorated with `room`,
+            #: but incoming message not contained `room` or `room` is not
+            #: matched.
+            if kwargs.get('room', None) is None:
+                return False
+
+            if not handler['room'].match(kwargs.get('room')):
+                return False
+
+        method = handler['method']
+        instance = handler['instance']
+        if hasattr(instance, method):
+            obj = getattr(instance, method)
+            if instance.__module__ == 'robo.handlers.help':
+                kwargs['docs'] = self.docs
+
+            send_to = '{0}.{1}'.format(instance.__module__, method)
+            message = Message(sender, match=matched,
+                              send_to=send_to, **kwargs)
+
+            result = obj(message)
+            #: Notify message to adapter.
+            self.notify_to_adapter(result, **kwargs)
+
+            return True
+
+        return False
 
     def notify_to_adapter(self, sender, **kwargs):
         """Notify message to adapter.
@@ -208,6 +259,11 @@ class Robot(object):
                     regex = re.compile(plugin_kwargs['regex'], regex_flags)
                     self.logger.debug('Regex is `{0}.`'.format(regex))
 
+                missing = False
+                if 'missing' in plugin_kwargs:
+                    missing = True
+                    self.logger.debug('Missing is `{0}`'.format(missing))
+
                 room = None
                 if 'room' in plugin_kwargs:
                     room = re.compile(plugin_kwargs['room'], re.IGNORECASE)
@@ -226,6 +282,7 @@ class Robot(object):
                     'kwargs': plugin_kwargs,
                     'regex': regex,
                     'room': room,
+                    'missing': missing
                 }
                 methods.append(method)
 

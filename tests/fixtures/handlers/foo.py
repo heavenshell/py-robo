@@ -22,3 +22,11 @@ class Foo(object):
     @cmd(regex=r'^goodbye')
     def goodbye3(self, message, **kwargs):
         return 'goodbye all'
+
+    @cmd(regex=r'.+', room=r'^missing', missing=True)
+    def missing(self, message, **kwargs):
+        return 'missing1'
+
+    @cmd(regex=r'^foo$', room=r'^missing')
+    def missing2(self, message, **kwargs):
+        return 'missing2'

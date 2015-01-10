@@ -69,7 +69,7 @@ class TestRobot(TestCase):
         """ Robot().parse_handler_methods() should parse given instance. """
         from tests.fixtures.handlers.foo import Foo
         ret = self.robot.parse_handler_methods(Foo())
-        self.assertEqual(len(ret), 5)
+        self.assertEqual(len(ret), 7)
 
     def test_should_setup_handlers(self):
         """ Robot().setup_handlers() should setup handlers. """
@@ -99,7 +99,7 @@ class TestRobot(TestCase):
 
     def test_shoudl_contains_handlers_docs(self):
         """ Robot().docs should contains handler's docs. """
-        self.assertEqual(len(self.robot.docs), 5)
+        self.assertEqual(len(self.robot.docs), 7)
 
     def test_handlers_docs_contains_description_and_pattern(self):
         """ Robot().docs should contains description and pattern. """
@@ -148,6 +148,18 @@ class TestRobot(TestCase):
         """ Handler should triggered when room is matched. """
         self.robot.handler_signal.send('test goodbye', room='@test')
         self.assertEqual(self.robot.adapters['null'].responses, ['goodbye all'])
+        self.robot.adapters['null'].responses = []
+
+    def test_handler_triggered_when_missing_is_true(self):
+        """ Handler should triggered when missing is True and other regex is not matched. """
+        self.robot.handler_signal.send('test foobarbaz', room='missing')
+        self.assertEqual(self.robot.adapters['null'].responses, ['missing1'])
+        self.robot.adapters['null'].responses = []
+
+    def test_handler_not_triggered_when_regex_was_matched(self):
+        """ Handler should not triggered when regex was matched even if missing is true. """
+        self.robot.handler_signal.send('test foo', room='missing')
+        self.assertEqual(self.robot.adapters['null'].responses, ['missing2'])
         self.robot.adapters['null'].responses = []
 
     def test_adapter_should_triggered(self):
