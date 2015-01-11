@@ -3,7 +3,7 @@ robo
 .. image:: https://travis-ci.org/heavenshell/py-robo.png?branch=master
 
 
-Dead simple bot framework which is inspired by Ruby's ruboty.
+Dead simple bot framework which is inspired by Ruby's `ruboty <https://github.com/r7kamura/ruboty>_`.
 
 
 Why reinvent the wheel
@@ -36,6 +36,11 @@ Adapter
 -------
 
 Adapter is interface of chat services receive message and send message to chat service.
+
+Robo includes two adapters.
+
+- shell
+- Slack
 
 
 Handler
