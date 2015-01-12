@@ -15,14 +15,16 @@ from robo.decorators import cmd
 class Help(object):
     @cmd(regex='^help$', description='Show this help message')
     def say(self, message, **kwargs):
-        description_length = 0
+        pattern_length = 0
         for d in message.docs:
-            if len(d['description']) > description_length:
-                description_length = len(d['description'])
+            if len(d['pattern']) > pattern_length:
+                pattern_length = len(d['pattern'])
 
-        msg = 'Description: {0:%s} Pattern: {1}' % description_length
+        msg = '{0} {1:%s} - {2}' % pattern_length
         docs = []
         for doc in message.docs:
-            docs.append(msg.format(doc['description'], doc['pattern']))
+            description = msg.format(doc['robot_name'], doc['pattern'],
+                                     doc['description']) 
+            docs.append(description)
 
         return '\n'.join(docs)
