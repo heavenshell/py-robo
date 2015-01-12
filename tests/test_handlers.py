@@ -24,11 +24,9 @@ def create_robot():
     here = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     get_path = partial(os.path.join, here)
     handler_path = get_path('robo/handlers')
-    adapter_path = get_path('tests/fixtures/adapters')
     robot = Robot()
     robot.setup_handlers(handler_path)
-    robot.setup_adapters(adapter_path, 'null',
-                         package='tests.fixtures.adapters')
+    robot.setup_adapters('null', package='tests.fixtures.adapters')
 
     return robot
 

@@ -57,9 +57,7 @@ class TestRobot(TestCase):
         handler_path = os.path.join(path, 'handlers')
         cls.robot.setup_handlers(handler_path, 'tests.fixtures.handlers')
 
-        adapter_path = os.path.join(path, 'adapters')
-        cls.robot.setup_adapters(adapter_path, 'null',
-                                 'tests.fixtures.adapters')
+        cls.robot.setup_adapters('null', 'tests.fixtures.adapters')
 
     def test_should_contains_signal(self):
         """ Robot() should contains signal. """
