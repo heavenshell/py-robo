@@ -1,3 +1,7 @@
+0.4.4
+-----
+* Delete ununsed param ``path`` from ``robo.robot.setup_adapters``.
+
 0.4.3
 -----
 * Improve joining multi chat room.

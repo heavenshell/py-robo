@@ -292,10 +292,9 @@ class Robot(object):
 
         return methods
 
-    def setup_adapters(self, path, adapter_name, package='robo.adapters'):
+    def setup_adapters(self, adapter_name, package='robo.adapters'):
         """Setup adapters.
 
-        :param path: Path to adapter
         :param adapter_name: Adapter name to run
         """
         #: Load adapter class which is specify boot arg.
