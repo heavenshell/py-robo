@@ -1,3 +1,7 @@
+0.4.2
+-----
+* Improve format display ``help`` result.
+
 0.4.1
 -----
 * Tiny refactoring.
