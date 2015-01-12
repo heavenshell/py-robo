@@ -30,7 +30,7 @@ class SlackXmpp(ClientXMPP):
         self.rooms = rooms
         self.nick = username
         self.add_event_handler('session_start', self.session_start)
-        self.add_event_handler("groupchat_message", self.muc_message)
+        self.add_event_handler('groupchat_message', self.muc_message)
 
     def session_start(self, event):
         """Start session.
@@ -41,7 +41,8 @@ class SlackXmpp(ClientXMPP):
         self.get_roster()
         rooms = self.rooms
         for room in rooms:
-            self.plugin['xep_0045'].joinMUC(room, self.nick, wait=False)
+            self.plugin['xep_0045'].joinMUC(room.lstrip().rstrip(), self.nick,
+                                            wait=False)
 
     def muc_message(self, message):
         """Receive multi user chat message.

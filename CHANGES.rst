@@ -1,3 +1,7 @@
+0.4.3
+-----
+* Improve joining multi chat room.
+
 0.4.2
 -----
 * Improve format display ``help`` result.
