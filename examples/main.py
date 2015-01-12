@@ -31,13 +31,11 @@ def main(args=None):
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     get_path = partial(os.path.join, root)
     handler_path = get_path('robo/handlers')
-    adapter_path = get_path('robo/adapters')
     logger.debug('Handler path is `{0}`'.format(handler_path))
-    logger.debug('Adapter path is `{0}`'.format(adapter_path))
 
     robot = Robot(name=args.name, logger=logger)
     robot.setup_handlers(handler_path)
-    robot.setup_adapters(adapter_path, args.adapter)
+    robot.setup_adapters(args.adapter)
     robot.run(args.adapter)
 
 
