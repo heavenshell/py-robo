@@ -3,7 +3,7 @@ robo
 .. image:: https://travis-ci.org/heavenshell/py-robo.png?branch=master
 
 
-Dead simple bot framework which is inspired by Ruby's `ruboty <https://github.com/r7kamura/ruboty>_`.
+Dead simple bot framework which is inspired by Ruby's `ruboty <https://github.com/r7kamura/ruboty>`_.
 
 
 Why reinvent the wheel
@@ -53,12 +53,7 @@ Handler provides various behaviors to your robot.
 
   class Ping(object):
       @cmd(regex=r'^ping', description='')
-      def pong(self, message):
+      def pong(self, message, **kwargs):
           return 'pong'
 
 This handler matches message `ping` and return `pong` to chat service.
-
-
-How to create plugins
----------------------
-TBD
