@@ -1,3 +1,7 @@
+0.4.5
+-----
+* Add ``robo.robot.register_default_handlers()`` for register default handlers.
+
 0.4.4
 -----
 * Delete ununsed param ``path`` from ``robo.robot.setup_adapters``.

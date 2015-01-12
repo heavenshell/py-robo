@@ -11,6 +11,7 @@
     :copyright: (c) 2015 Shinya Ohyanagi, All rights reserved.
     :license: BSD, see LICENSE for more details.
 """
+import os
 import re
 import inspect
 import pkgutil
@@ -304,6 +305,16 @@ class Robot(object):
         #: Register signal instance to adapter class.
         self.adapters[adapter_name] = adapter_class(self.handler_signal)
         self.logger.debug('Adapter `{0}` loaded.'.format(plugin))
+
+    def register_default_handlers(self):
+        """Register default handlers.
+
+        Default handlers are `robo.handlers.echo`, `robo.handlers.help`,
+        `robo.handlers.ping`.
+        """
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            'handlers')
+        self.setup_handlers([path])
 
     def run(self, adapter_name):
         """Run robot.

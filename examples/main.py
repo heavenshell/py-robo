@@ -16,7 +16,6 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 import argparse
 import logging
-from functools import partial
 from robo.robot import Robot
 
 
@@ -28,13 +27,8 @@ def main(args=None):
     logging.basicConfig(level=args.verbose, format=Robot.debug_log_format)
     logger = logging.getLogger('robo')
 
-    root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    get_path = partial(os.path.join, root)
-    handler_path = get_path('robo/handlers')
-    logger.debug('Handler path is `{0}`'.format(handler_path))
-
     robot = Robot(name=args.name, logger=logger)
-    robot.setup_handlers(handler_path)
+    robot.register_default_handlers()
     robot.setup_adapters(args.adapter)
     robot.run(args.adapter)
 
