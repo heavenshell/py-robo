@@ -1,5 +1,7 @@
 0.4.6
 -----
+* Add _compat for Python2 and Python3 compatible.
+* Add Unicode test.
 * Fix pep8 violation.
 * Fix to log regex pattern more detail.
 

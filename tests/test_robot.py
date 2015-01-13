@@ -104,6 +104,19 @@ class TestRobot(TestCase):
         self.assertEqual(self.robot.docs[4]['description'], 'test hi')
         self.assertEqual(self.robot.docs[4]['pattern'], '^hi')
 
+    def test_should_register_default_handlers(self):
+        """ Robot().register_default_handlers() should register default packages. """
+        self.robot.register_default_handlers()
+        self.assertEqual(self.robot.handlers[7]['instance'].__module__,
+                         'robo.handlers.echo')
+
+    def test_subscriber_should_receive_unicode_text(self):
+        """ Robot().handler_subscriber() should receive unicode message. """
+        message = u'test hi \xe3\x81\x82\xe3\x81\x84\xe3\x81\x86'
+        self.robot.handler_signal.send(message)
+        self.assertEqual(self.robot.adapters['null'].responses[0], 'hi')
+        self.robot.adapters['null'].responses = []
+
     def test_should_setup_adapters(self):
         """ Robot().setup_adapters() should setup adapters. """
         from tests.fixtures.adapters.null import Null

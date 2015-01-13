@@ -19,6 +19,7 @@ import logging
 from blinker import signal
 from robo.message import Message
 from robo.utils import snakecase_to_pascalcase
+from robo._compat import to_unicode
 
 
 class PluginLoader(object):
@@ -106,10 +107,12 @@ class Robot(object):
         :param sender: Received message
         :param **kwargs: Data to be sent to receivers
         """
-        self.logger.debug('Subscribing message is `{0}`.'.format(sender))
+        message = to_unicode(sender)
+        message_format = 'Subscribing message is `{0}`'
+        self.logger.debug(message_format.format(message.encode('utf-8')))
 
         #: Message should start with robot's name(default is robo).
-        trigger = self.trigger_pattern.match(sender)
+        trigger = self.trigger_pattern.match(message)
         if trigger is None:
             return
 
@@ -134,7 +137,7 @@ class Robot(object):
                 pattern = handler['regex']
                 matched = pattern.match(body)
                 if matched:
-                    ret = self.trigger_handler(sender, handler, matched,
+                    ret = self.trigger_handler(message, handler, matched,
                                                **kwargs)
                     if ret is True:
                         matched_count += 1
@@ -147,7 +150,7 @@ class Robot(object):
                     pattern = missing_handler['regex']
                     matched = pattern.match(body)
                     if matched:
-                        self.trigger_handler(sender, missing_handler,
+                        self.trigger_handler(message, missing_handler,
                                              matched, **kwargs)
 
     def trigger_handler(self, sender, handler, matched, **kwargs):
@@ -212,8 +215,10 @@ class Robot(object):
         """
         #: Notify to all adapters.
         adapters = self.adapters
+        message_format = 'Notify `{0}` to `{1}.`'
         for name in adapters:
-            self.logger.debug('Notify `{0}` to `{1}.`'.format(sender, name))
+            self.logger.debug(message_format.format(sender.encode('utf-8'),
+                              name))
             adapters[name].say(sender, **kwargs)
 
     def setup_handlers(self, paths, package='robo.handlers'):
