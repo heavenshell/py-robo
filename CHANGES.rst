@@ -1,3 +1,7 @@
+0.4.6
+-----
+* Fix pep8 violation.
+
 0.4.5
 -----
 * Add ``robo.robot.register_default_handlers()`` for register default handlers.

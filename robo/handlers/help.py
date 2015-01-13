@@ -24,7 +24,7 @@ class Help(object):
         docs = []
         for doc in message.docs:
             description = msg.format(doc['robot_name'], doc['pattern'],
-                                     doc['description']) 
+                                     doc['description'])
             docs.append(description)
 
         return '\n'.join(docs)
