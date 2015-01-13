@@ -1,6 +1,7 @@
 0.4.6
 -----
 * Fix pep8 violation.
+* Fix to log regex pattern more detail.
 
 0.4.5
 -----
