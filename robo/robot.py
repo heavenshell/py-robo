@@ -258,7 +258,7 @@ class Robot(object):
 
                 if 'regex' in plugin_kwargs:
                     regex = re.compile(plugin_kwargs['regex'], regex_flags)
-                    self.logger.debug('Regex is `{0}.`'.format(regex))
+                    self.logger.debug('Regex is `{0}.`'.format(regex.pattern))
 
                 missing = False
                 if 'missing' in plugin_kwargs:
