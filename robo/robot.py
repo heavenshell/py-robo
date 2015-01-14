@@ -298,7 +298,7 @@ class Robot(object):
 
         return methods
 
-    def setup_adapters(self, adapter_name, package='robo.adapters'):
+    def load_adapter(self, adapter_name, package='robo.adapters'):
         """Setup adapters.
 
         :param adapter_name: Adapter name to run

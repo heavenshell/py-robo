@@ -26,7 +26,7 @@ def create_robot():
     handler_path = get_path('robo/handlers')
     robot = Robot()
     robot.setup_handlers(handler_path)
-    robot.setup_adapters('null', package='tests.fixtures.adapters')
+    robot.load_adapter('null', package='tests.fixtures.adapters')
 
     return robot
 

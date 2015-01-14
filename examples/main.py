@@ -29,7 +29,7 @@ def main(args=None):
 
     robot = Robot(name=args.name, logger=logger)
     robot.register_default_handlers()
-    robot.setup_adapters(args.adapter)
+    robot.load_adapter(args.adapter)
     robot.run(args.adapter)
 
 

@@ -1,3 +1,7 @@
+0.4.7
+-----
+* Refactor method name `setup_adapters()` to `load_adapter()`.
+
 0.4.6
 -----
 * Add _compat for Python2 and Python3 compatible.

@@ -57,7 +57,7 @@ class TestRobot(TestCase):
         handler_path = os.path.join(path, 'handlers')
         cls.robot.setup_handlers(handler_path, 'tests.fixtures.handlers')
 
-        cls.robot.setup_adapters('null', 'tests.fixtures.adapters')
+        cls.robot.load_adapter('null', 'tests.fixtures.adapters')
 
     def test_should_contains_signal(self):
         """ Robot() should contains signal. """
@@ -117,8 +117,8 @@ class TestRobot(TestCase):
         self.assertEqual(self.robot.adapters['null'].responses[0], 'hi')
         self.robot.adapters['null'].responses = []
 
-    def test_should_setup_adapters(self):
-        """ Robot().setup_adapters() should setup adapters. """
+    def test_should_load_adapter(self):
+        """ Robot().load_adapter() should setup adapters. """
         from tests.fixtures.adapters.null import Null
         self.assertTrue(isinstance(self.robot.adapters['null'], Null))
 
