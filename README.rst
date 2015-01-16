@@ -39,8 +39,8 @@ Adapter is interface of chat services receive message and send message to chat s
 
 Robo includes two adapters.
 
-- shell
-- Slack
+- `shell <https://github.com/heavenshell/py-robo/blob/master/robo/adapters/shell.py>`_
+- `Slack <https://github.com/heavenshell/py-robo/blob/master/robo/adapters/slack.py>`_
 
 
 Handler
@@ -57,3 +57,22 @@ Handler provides various behaviors to your robot.
           return 'pong'
 
 This handler matches message `ping` and return `pong` to chat service.
+
+
+Bootstrap
+---------
+`example/main.py <https://github.com/heavenshell/py-robo/blob/master/examples/main.py>`_ is bootstrap `robo` example.
+
+.. code:: python
+
+  def main(args=None):
+      #: `name` is bot's name.
+      #: This arg is trigger of handler.
+      robot = Robot(name=args.name, logger=logger)
+      #: `register_default_handlers()` register default handlers.
+      #: Default handlers are `help`, `ping`, `echo`.
+      robot.register_default_handlers()
+      #: Load given adapter name.
+      robot.load_adapter(args.adapter)
+      #: Run robot 
+      robot.run(args.adapter)
