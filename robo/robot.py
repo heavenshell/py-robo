@@ -29,7 +29,7 @@ class PluginLoader(object):
     at plugin class, it raised error(TypeError: 'NoneType' object is not
     subscriptable).
 
-    So we jsut create simple plugin loader.
+    So jsut create a simple plugin loader.
     """
     def __init__(self, package):
         """Construct plugin loader.
@@ -43,7 +43,7 @@ class PluginLoader(object):
     def list_plugins(self, searchpath):
         """List plugin names.
 
-        :param searchpath: Plugin paths
+        :param searchpath: List of plugin paths
         """
         rv = []
         for _, modname, ispkg in pkgutil.iter_modules(searchpath):
