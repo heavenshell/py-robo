@@ -1,3 +1,7 @@
+0.4.8
+-----
+* Add `shutdown` method to ``robo.robot``.
+
 0.4.7
 -----
 * Refactor method name `setup_adapters()` to `load_adapter()`.

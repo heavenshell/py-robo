@@ -3,6 +3,8 @@ from robo.decorators import cmd
 
 
 class Foo(object):
+    response = None
+
     @cmd(regex=r'^hi', description='test hi')
     def hi(self, message, **kwargs):
         return 'hi'
@@ -30,3 +32,6 @@ class Foo(object):
     @cmd(regex=r'^foo$', room=r'^missing')
     def missing2(self, message, **kwargs):
         return 'missing2'
+
+    def shutdown(self):
+        self.response = 'shutdown'

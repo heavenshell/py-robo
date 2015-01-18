@@ -173,6 +173,12 @@ class TestRobot(TestCase):
         self.assertEqual(self.robot.adapters['null'].responses, ['missing2'])
         self.robot.adapters['null'].responses = []
 
+    def test_hander_should_shutdown(self):
+        """ Handelr should shutdown if handler contains shutdown method. """
+        self.robot.shutdown()
+        self.assertEqual(self.robot.handlers[0]['instance'].response,
+                         'shutdown')
+
     def test_adapter_should_triggered(self):
         """ Adapter should triggered when given message was matched. """
         self.robot.handler_signal.send('test hi foo')

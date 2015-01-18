@@ -321,6 +321,16 @@ class Robot(object):
                             'handlers')
         self.setup_handlers([path])
 
+    def shutdown(self):
+        """Shutdown.
+
+        If handler has shutdown method, call it.
+        """
+        handlers = self.handlers
+        for handler in handlers:
+            if hasattr(handler['instance'], 'shutdown'):
+                handler['instance'].shutdown()
+
     def run(self, adapter_name):
         """Run robot.
 
