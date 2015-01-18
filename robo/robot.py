@@ -236,6 +236,11 @@ class Robot(object):
             plugin = handler_base.load_plugin(name)
             handler_class = getattr(plugin, snakecase_to_pascalcase(name))
             handler_obj = handler_class()
+            if hasattr(handler_obj, 'signal'):
+                handler_obj.signal = self.handler_signal
+                message = 'Injected signal to handler `{0}`.'
+                self.logger.debug(message.format(handler_class))
+
             #: List all handlers method.
             methods = self.parse_handler_methods(handler_obj)
             self.handlers.extend(methods)

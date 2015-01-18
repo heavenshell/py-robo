@@ -179,6 +179,10 @@ class TestRobot(TestCase):
         self.assertEqual(self.robot.handlers[0]['instance'].response,
                          'shutdown')
 
+    def test_handler_should_contains_signal(self):
+        """ Handelr should contains signal object. """
+        self.assertIsNotNone(self.robot.handlers[0]['instance'].signal)
+
     def test_adapter_should_triggered(self):
         """ Adapter should triggered when given message was matched. """
         self.robot.handler_signal.send('test hi foo')

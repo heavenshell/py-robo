@@ -3,6 +3,8 @@ from robo.decorators import cmd
 
 
 class Foo(object):
+    signal = None
+
     response = None
 
     @cmd(regex=r'^hi', description='test hi')

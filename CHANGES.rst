@@ -1,3 +1,8 @@
+0.4.9
+-----
+* Inject signal object to handler class, if handler class has ``signal`` property.
+* Add ``__repr__`` to ``robo.message.Message``.
+
 0.4.8
 -----
 * Add `shutdown` method to ``robo.robot``.
