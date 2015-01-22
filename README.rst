@@ -61,7 +61,7 @@ This handler matches message `ping` and return `pong` to chat service.
 
 Bootstrap
 ---------
-`example/main.py <https://github.com/heavenshell/py-robo/blob/master/examples/main.py>`_ is bootstrap `robo` example.
+`example/main.py <https://github.com/heavenshell/py-robo/blob/master/examples/main.py>`_ is a example of bootstraping `robo`.
 
 .. code:: python
 
@@ -74,5 +74,5 @@ Bootstrap
       robot.register_default_handlers()
       #: Load given adapter name.
       robot.load_adapter(args.adapter)
-      #: Run robot 
+      #: Run robot
       robot.run(args.adapter)
