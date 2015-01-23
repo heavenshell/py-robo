@@ -1,3 +1,7 @@
+0.5.0
+-----
+* Inject robot name to handler class, if handler class has ``robot_name`` property.
+
 0.4.9
 -----
 * Inject signal object to handler class, if handler class has ``signal`` property.

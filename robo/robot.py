@@ -241,6 +241,11 @@ class Robot(object):
                 message = 'Injected signal to handler `{0}`.'
                 self.logger.debug(message.format(handler_class))
 
+            if hasattr(handler_obj, 'robot_name'):
+                handler_obj.robot_name  = self.name
+                message = 'Injected robot name to `{0}`.'
+                self.logger.debug(message.format(handler_class))
+
             #: List all handlers method.
             methods = self.parse_handler_methods(handler_obj)
             self.handlers.extend(methods)
