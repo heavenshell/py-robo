@@ -1,3 +1,7 @@
+0.5.1
+-----
+* Delete logger arg from ``adapters.shell``.
+
 0.5.0
 -----
 * Inject robot name to handler class, if handler class has ``robot_name`` property.

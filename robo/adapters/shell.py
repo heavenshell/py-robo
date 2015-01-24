@@ -24,16 +24,15 @@ class Console(code.InteractiveConsole):
 
 
 class Shell(object):
-    def __init__(self, signal, logger=None):
+    def __init__(self, signal):
         self.console = Console()
         self.console.signal = signal
 
-        if logger is None:
-            handler = logging.StreamHandler()
-            handler.setFormatter(logging.Formatter(fmt='%(message)s'))
-            logger = logging.getLogger('robo.adapters.shell')
-            logger.propagate = False
-            logger.addHandler(handler)
+        handler = logging.StreamHandler()
+        handler.setFormatter(logging.Formatter(fmt='%(message)s'))
+        logger = logging.getLogger('robo.adapters.shell')
+        logger.propagate = False
+        logger.addHandler(handler)
         self.logger = logger
 
     def say(self, message, **kwargs):
