@@ -7,6 +7,8 @@ class Foo(object):
 
     response = None
 
+    options = None
+
     @cmd(regex=r'^hi', description='test hi')
     def hi(self, message, **kwargs):
         return 'hi'

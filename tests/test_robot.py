@@ -183,6 +183,20 @@ class TestRobot(TestCase):
         """ Handelr should contains signal object if signal property exists. """
         self.assertIsNotNone(self.robot.handlers[0]['instance'].signal)
 
+    def test_handler_should_contains_options(self):
+        """ Handelr should contains options if options property exists. """
+        logger = logging.getLogger('robo')
+        logger.level = logging.ERROR
+        options = {'foo': 'bar'}
+        robot = Robot('test', logger, **options)
+
+        path = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                            'fixtures')
+        handler_path = os.path.join(path, 'handlers')
+        robot.setup_handlers(handler_path, 'tests.fixtures.handlers')
+        robot.load_adapter('null', 'tests.fixtures.adapters')
+        self.assertEqual(robot.handlers[0]['instance'].options, options)
+
     def test_adapter_should_triggered(self):
         """ Adapter should triggered when given message was matched. """
         self.robot.handler_signal.send('test hi foo')

@@ -1,6 +1,8 @@
 0.5.1
 -----
 * Delete logger arg from ``adapters.shell``.
+* Fix test docstring.
+* Add ``options`` to ``robot`` constructor.
 
 0.5.0
 -----

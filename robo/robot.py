@@ -69,7 +69,7 @@ class Robot(object):
         '[%(asctime)s %(levelname)s][%(pathname)s:%(lineno)d]: %(message)s'
     )
 
-    def __init__(self, name='robo', logger=None):
+    def __init__(self, name='robo', logger=None, **kwargs):
         """Construct a robot.
 
         :param name: Robot name
@@ -84,6 +84,7 @@ class Robot(object):
         self.adapters = {}
         self.handlers = []
         self.docs = []
+        self.options = kwargs
 
         if logger is None:
             logging.basicConfig(level=logging.INFO,
@@ -244,6 +245,11 @@ class Robot(object):
             if hasattr(handler_obj, 'robot_name'):
                 handler_obj.robot_name  = self.name
                 message = 'Injected robot name to `{0}`.'
+                self.logger.debug(message.format(handler_class))
+
+            if hasattr(handler_obj, 'options'):
+                handler_obj.options = self.options
+                message = 'Injected options to `{0}`.'
                 self.logger.debug(message.format(handler_class))
 
             #: List all handlers method.
