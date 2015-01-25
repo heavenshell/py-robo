@@ -180,7 +180,7 @@ class TestRobot(TestCase):
                          'shutdown')
 
     def test_handler_should_contains_signal(self):
-        """ Handelr should contains signal object. """
+        """ Handelr should contains signal object if signal property exists. """
         self.assertIsNotNone(self.robot.handlers[0]['instance'].signal)
 
     def test_adapter_should_triggered(self):
