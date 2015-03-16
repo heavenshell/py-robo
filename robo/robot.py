@@ -200,7 +200,7 @@ class Robot(object):
             message = Message(sender, match=matched,
                               send_to=send_to, **kwargs)
 
-            result = obj(message)
+            result = obj(message, **kwargs)
             #: Notify message to adapter.
             self.notify_to_adapter(result, **kwargs)
 
