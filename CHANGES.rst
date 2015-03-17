@@ -1,3 +1,7 @@
+0.5.2
+-----
+* Add ``**kwargs`` to handler method.
+
 0.5.1
 -----
 * Delete logger arg from ``adapters.shell``.
