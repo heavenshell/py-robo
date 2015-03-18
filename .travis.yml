@@ -9,7 +9,6 @@ before_install:
   - if [[ $TRAVIS_PYTHON_VERSION == '3*' ]]; then travis_retry pip install dnspython3; fi
   - travis_retry pip install blinker
   - travis_retry pip install sleekxmpp
-  - travis_retry pip install dnspython3
   - travis_retry pip install pyasn1
   - travis_retry pip install pyasn1_modules
 
