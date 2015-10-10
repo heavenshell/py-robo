@@ -1,3 +1,8 @@
+0.5.4
+-----
+* Fix typo at ``adapters.slack.py``.
+* Add ``sleekxmpp.exceptions.IqTimeout`` to ``adapters.slack.py`` for avoid request timeout.
+
 0.5.3
 -----
 * Change ``logger.debug to logger.info`` Slack logger.

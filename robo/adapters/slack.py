@@ -12,6 +12,7 @@
 import os
 import logging
 from sleekxmpp import ClientXMPP
+from sleekxmpp.exceptions import IqTimeout
 
 logger = logging.getLogger('robo')
 
@@ -38,7 +39,12 @@ class SlackXmpp(ClientXMPP):
         :param event:
         """
         self.send_presence()
-        self.get_roster()
+        logger.info('Finish to send presence')
+        try:
+            self.get_roster()
+        except IqTimeout as e:
+            logger.error(e)
+        logger.info('Finish to get_roster()')
         rooms = self.rooms
         for room in rooms:
             self.plugin['xep_0045'].joinMUC(room.lstrip().rstrip(), self.nick,
@@ -74,7 +80,7 @@ class Slack(object):
         logger.info('Joining rooms are {0}.'.format(rooms))
 
         self.xmpp = SlackXmpp(jid, password, username, rooms)
-        #: Add service eiscovery.
+        #: Add service discovery.
         self.xmpp.register_plugin('xep_0030')
         #: Add Multi-User chat.
         self.xmpp.register_plugin('xep_0045')
