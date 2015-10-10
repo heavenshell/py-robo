@@ -43,6 +43,7 @@ class SlackXmpp(ClientXMPP):
         for room in rooms:
             self.plugin['xep_0045'].joinMUC(room.lstrip().rstrip(), self.nick,
                                             wait=False)
+        logger.debug('Start session.')
 
     def muc_message(self, message):
         """Receive multi user chat message.
@@ -65,8 +66,8 @@ class Slack(object):
         team = os.environ['ROBO_SLACK_TEAM']
         username = os.environ['ROBO_SLACK_USERNAME']
         jid = '{0}@{1}.xmpp.slack.com'.format(username, team)
-        logger.debug('jid is `{0}`.'.format(jid))
-        logger.debug('room is `{0}`.'.format(room))
+        logger.info('jid is `{0}`.'.format(jid))
+        logger.info('room is `{0}`.'.format(room))
 
         #: Enable to join multi rooms.
         rooms = room.split(',')
@@ -80,6 +81,7 @@ class Slack(object):
         #: Add XMPP ping.
         self.xmpp.register_plugin('xep_0199')
         self.xmpp.signal = signal
+        logger.info('Finish to prepare connecting.')
 
     def say(self, message, **kwargs):
         """Send reply message to Slack.

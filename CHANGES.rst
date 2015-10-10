@@ -1,3 +1,7 @@
+0.5.3
+-----
+* Change ``logger.debug to logger.info`` Slack logger.
+
 0.5.2
 -----
 * Add ``**kwargs`` to handler method.
