@@ -1,3 +1,8 @@
+0.5.5
+-----
+* Add Python3.5 to ``tox.ini`` and ``.travis.yml``.
+* Add ``None`` check for avoid ``AttributeError: 'NoneType'`` if handler publish ``None``.
+
 0.5.4
 -----
 * Fix typo at ``adapters.slack.py``.

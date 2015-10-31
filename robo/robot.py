@@ -108,6 +108,10 @@ class Robot(object):
         :param sender: Received message
         :param **kwargs: Data to be sent to receivers
         """
+        if sender is None:
+            self.logger.info('Subscribing message is None.')
+            return
+
         message = to_unicode(sender)
         message_format = 'Subscribing message is `{0}`'
         self.logger.debug(message_format.format(message.encode('utf-8')))
