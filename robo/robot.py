@@ -219,6 +219,8 @@ class Robot(object):
         :param **kwargs: Data to be sent to receivers
         """
         #: Notify to all adapters.
+        if sender is None:
+            return
         adapters = self.adapters
         message_format = 'Notify `{0}` to `{1}.`'
         for name in adapters:
