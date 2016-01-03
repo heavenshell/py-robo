@@ -6,7 +6,7 @@
     Shell.
 
 
-    :copyright: (c) 2015 Shinya Ohyanagi, All rights reserved.
+    :copyright: (c) 2016 Shinya Ohyanagi, All rights reserved.
     :license: BSD, see LICENSE for more details.
 """
 import sys
