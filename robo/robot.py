@@ -8,7 +8,7 @@
     robo is inspired by Ruboty.
 
 
-    :copyright: (c) 2016 Shinya Ohyanagi, All rights reserved.
+    :copyright: (c) 2018 Shinya Ohyanagi, All rights reserved.
     :license: BSD, see LICENSE for more details.
 """
 import os
@@ -29,7 +29,7 @@ class PluginLoader(object):
     at plugin class, it raised error(TypeError: 'NoneType' object is not
     subscriptable).
 
-    So jsut create a simple plugin loader.
+    So just create a simple plugin loader.
     """
     def __init__(self, package):
         """Construct plugin loader.
@@ -249,7 +249,7 @@ class Robot(object):
                 self.logger.debug(message.format(handler_class))
 
             if hasattr(handler_obj, 'robot_name'):
-                handler_obj.robot_name  = self.name
+                handler_obj.robot_name = self.name
                 message = 'Injected robot name to `{0}`.'
                 self.logger.debug(message.format(handler_class))
 

@@ -23,7 +23,7 @@ with open(rst_path) as f:
 
 setup(
     name=app_name,
-    version='0.5.5',
+    version='0.5.6',
     author='Shinya Ohyanagi',
     author_email='sohyanagi@gmail.com',
     url='http://github.com/heavenshell/py-robo',
@@ -31,7 +31,7 @@ setup(
     long_description=description,
     license='BSD',
     platforms='any',
-    packages=find_packages(exclude=['tests']),
+    packages=find_packages(exclude=['tests', 'examples']),
     package_dir={'': '.'},
     install_requires=requires,
     classifiers=[

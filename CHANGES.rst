@@ -1,3 +1,7 @@
+0.5.6
+-----
+* Exclude `examples` directory.
+
 0.5.5
 -----
 * Add Python3.5 to ``tox.ini`` and ``.travis.yml``.
